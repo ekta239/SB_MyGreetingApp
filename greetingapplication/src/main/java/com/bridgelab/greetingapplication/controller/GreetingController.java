@@ -1,39 +1,38 @@
 package com.bridgelab.greetingapplication.controller;
 
-import java.util.Map;
-import java.util.HashMap;
+import com.bridgelab.greetingapplication.service.GreetingService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
-@RequestMapping("/greeting")
+@RequestMapping("/greet")
 public class GreetingController {
+
+    private final GreetingService greetingService;
+
+    // Constructor Injection of Service Layer
+    public GreetingController(GreetingService greetingService) {
+        this.greetingService = greetingService;
+    }
 
     @GetMapping
     public Map<String, String> getGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, this is a GET request");
-        return response;
+        return greetingService.getGreeting();
     }
 
     @PostMapping
-    public  Map<String, String> postGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, this is a POST request");
-        return response;
+    public Map<String, String> postGreeting(@RequestBody Map<String, String> requestBody) {
+        return greetingService.postGreeting(requestBody.get("name"));
     }
 
     @PutMapping
     public Map<String, String> putGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, this is a PUT request");
-        return response;
+        return greetingService.putGreeting();
     }
 
     @DeleteMapping
     public Map<String, String> deleteGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, this is a DELETE request");
-        return response;
+        return greetingService.deleteGreeting();
     }
-
 }
