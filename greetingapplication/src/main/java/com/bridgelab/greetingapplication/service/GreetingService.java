@@ -9,25 +9,23 @@ public class GreetingService {
 
     public Map<String, String> getGreeting() {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, World (GET)");
+        response.put("message", "Hello, World");
         return response;
     }
 
-    public Map<String, String> postGreeting(String name) {
+    public Map<String, String> generateGreeting(String firstName, String lastName) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, " + name + " POST request.");
-        return response;
-    }
 
-    public Map<String, String> putGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, World (PUT)");
-        return response;
-    }
+        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
+            response.put("message", "Hello, " + firstName + " " + lastName + "!");
+        } else if (firstName != null && !firstName.isEmpty()) {
+            response.put("message", "Hello, " + firstName + "!");
+        } else if (lastName != null && !lastName.isEmpty()) {
+            response.put("message", "Hello, " + lastName + "!");
+        } else {
+            response.put("message", "Hello, World");
+        }
 
-    public Map<String, String> deleteGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, World (DELETE)");
         return response;
     }
 }
