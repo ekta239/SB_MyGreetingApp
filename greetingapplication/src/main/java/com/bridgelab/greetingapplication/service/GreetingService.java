@@ -40,4 +40,16 @@ public class GreetingService {
             return Optional.empty();
         }
     }
+        public boolean deleteGreeting(Long id) {
+            Optional<Greeting> existingGreeting = greetingRepository.findById(id);
+
+            if (existingGreeting.isPresent()) {
+                greetingRepository.deleteById(id);  // Delete from database
+                return true;
+            } else {
+                return false; // ID not found
+            }
+        }
+
+    
 }

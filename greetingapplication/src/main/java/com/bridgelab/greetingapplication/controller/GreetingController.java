@@ -55,5 +55,16 @@ public class GreetingController {
                     .body("Greeting Not Found with ID: " + id);
         }
     }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteGreeting(@PathVariable Long id) {
+        boolean isDeleted = greetingService.deleteGreeting(id);
+
+        if (isDeleted) {
+            return ResponseEntity.ok("Greeting deleted successfully with ID: " + id);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Greeting Not Found with ID: " + id);
+        }
+    }
 
 }
