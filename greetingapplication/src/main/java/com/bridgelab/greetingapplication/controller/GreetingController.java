@@ -2,6 +2,8 @@ package com.bridgelab.greetingapplication.controller;
 
 import com.bridgelab.greetingapplication.model.Greeting;
 import com.bridgelab.greetingapplication.service.GreetingService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,9 +30,16 @@ public class GreetingController {
     public List<Greeting> getAllGreetings() {
         return greetingService.getAllGreetings();
     }
-
     @GetMapping("/{id}")
-    public Optional<Greeting> getGreetingById(@PathVariable Long id) {
-        return greetingService.getGreetingById(id);
+    public ResponseEntity<Object> getGreetingById(@PathVariable Long id) {
+        Optional<Greeting> greeting = greetingService.getGreetingById(id);
+
+        if (greeting.isPresent()) {
+            return ResponseEntity.ok(greeting.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Greeting Not Found with ID: " + id);
+        }
     }
+
 }
