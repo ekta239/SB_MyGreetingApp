@@ -27,4 +27,17 @@ public class GreetingService {
     public Optional<Greeting> getGreetingById(Long id) {
         return greetingRepository.findById(id);
     }
+
+    public Optional<Greeting> updateGreeting(Long id, String newMessage) {
+        Optional<Greeting> existingGreeting = greetingRepository.findById(id);
+
+        if (existingGreeting.isPresent()) {
+            Greeting greeting = existingGreeting.get();
+            greeting.setMessage(newMessage);  // Update the message
+            greetingRepository.save(greeting);
+            return Optional.of(greeting);
+        } else {
+            return Optional.empty();
+        }
+    }
 }

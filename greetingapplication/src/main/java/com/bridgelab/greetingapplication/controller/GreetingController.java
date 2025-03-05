@@ -42,4 +42,18 @@ public class GreetingController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateGreeting(@PathVariable Long id, @RequestBody Map<String, String> requestBody) {
+        String newMessage = requestBody.get("message"); // Extract new message from request body
+
+        Optional<Greeting> updatedGreeting = greetingService.updateGreeting(id, newMessage);
+
+        if (updatedGreeting.isPresent()) {
+            return ResponseEntity.ok(updatedGreeting.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Greeting Not Found with ID: " + id);
+        }
+    }
+
 }
