@@ -1,31 +1,30 @@
 package com.bridgelab.greetingapplication.service;
 
+import com.bridgelab.greetingapplication.model.Greeting;
+import com.bridgelab.greetingapplication.repository.GreetingRepository;
 import org.springframework.stereotype.Service;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class GreetingService {
 
-    public Map<String, String> getGreeting() {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "Hello, World");
-        return response;
+    private final GreetingRepository greetingRepository;
+
+    public GreetingService(GreetingRepository greetingRepository) {
+        this.greetingRepository = greetingRepository;
     }
 
-    public Map<String, String> generateGreeting(String firstName, String lastName) {
-        Map<String, String> response = new HashMap<>();
+    public Greeting saveGreeting(String message) {
+        Greeting greeting = new Greeting(message);
+        return greetingRepository.save(greeting);  // Saves to MySQL
+    }
 
-        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
-            response.put("message", "Hello, " + firstName + " " + lastName + "!");
-        } else if (firstName != null && !firstName.isEmpty()) {
-            response.put("message", "Hello, " + firstName + "!");
-        } else if (lastName != null && !lastName.isEmpty()) {
-            response.put("message", "Hello, " + lastName + "!");
-        } else {
-            response.put("message", "Hello, World");
-        }
+    public List<Greeting> getAllGreetings() {
+        return greetingRepository.findAll();  // Retrieves all greetings
+    }
 
-        return response;
+    public Optional<Greeting> getGreetingById(Long id) {
+        return greetingRepository.findById(id);
     }
 }
